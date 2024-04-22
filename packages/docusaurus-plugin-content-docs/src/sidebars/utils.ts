@@ -480,19 +480,11 @@ Available document ids are:
 
 export function toDocNavigationLink(
   doc: DocMetadataBase,
-  options?: {sidebarItemLabel?: string | undefined},
+  { sidebarItemLabel }: { sidebarItemLabel?: string } = {},
 ): PropNavigationLink {
-  const {
-    title,
-    permalink,
-    frontMatter: {
-      pagination_label: paginationLabel,
-      sidebar_label: sidebarLabel,
-    },
-  } = doc;
+  const { title, permalink, frontMatter } = doc;
   return {
-    title:
-      paginationLabel ?? sidebarLabel ?? options?.sidebarItemLabel ?? title,
+    title: frontMatter.pagination_label ?? frontMatter.sidebar_label ?? sidebarItemLabel ?? title,
     permalink,
   };
 }
@@ -523,7 +515,5 @@ export function toNavigationLink(
           permalink: navigationItem.link.permalink,
         };
   }
-  return toDocNavigationLink(getDocById(navigationItem.id), {
-    sidebarItemLabel: navigationItem?.label,
-  });
+  return toDocNavigationLink(getDocById(navigationItem.id), { sidebarItemLabel: navigationItem.label });
 }

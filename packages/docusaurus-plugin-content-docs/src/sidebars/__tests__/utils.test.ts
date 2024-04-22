@@ -734,7 +734,21 @@ describe('toDocNavigationLink', () => {
       permalink: '/docPermalink',
     } as PropNavigationLink);
   });
+  it('should fallback to sidebar_label if pagination_label is not available', () => {
+    const doc: DocMetadataBase = {
+      title: 'Test Title',
+      permalink: '/test-permalink',
+      frontMatter: {
+        sidebar_label: 'Sidebar 1'
+      }
+    };
 
+    const result = toDocNavigationLink(doc);
+    expect(result).toEqual({
+      title: 'Sidebar 1',
+      permalink: '/test-permalink'
+    });
+  });
   it('with pagination_label + sidebar_label front matter', () => {
     expect(
       toDocNavigationLink(
